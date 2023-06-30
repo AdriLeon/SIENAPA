@@ -1,0 +1,7 @@
+{
+  "name": "SIENAPA",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
