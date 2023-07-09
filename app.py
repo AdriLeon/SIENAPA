@@ -2,26 +2,26 @@ import web
 
 urls = (
     '/', 'mvc.controllers.public.login.Login',
-    '/admin/lista-pozos', 'mvc.controllers.admin.lista-pozos.Lista-pozos',
-    '/admin/generar-pozo', 'mvc.controllers.admin.generar-pozo.Generar-pozo',
-    '/admin/cambiar-horario', 'mvc.controllers.admin.cambiar-horario.Cambiar-horario',
-    '/admin/control-pozo', 'mvc.controllers.admin.control-pozo.Control-pozo',
-    '/admin/lista-usuarios', 'mvc.controllers.admin.lista-usuarios.Lista-usuarios',
-    '/admin/generar-reporte', 'mvc.controllers.admin.generar-reporte.Generar-reporte',
+    '/admin/lista_pozos', 'mvc.controllers.admin.listapozos.ListaPozos',
+    '/admin/generar_pozo', 'mvc.controllers.admin.generarpozo.GenerarPozo',
+    '/admin/cambiar_horario', 'mvc.controllers.admin.cambiarhorario.CambiarHorario',
+    '/admin/control_pozo', 'mvc.controllers.admin.controlpozo.ControlPozo',
+    '/admin/lista_usuarios', 'mvc.controllers.admin.listausuarios.ListaUsuarios',
+    '/admin/generar_reporte', 'mvc.controllers.admin.generarreporte.GenerarReporte',
     '/logout', 'mvc.controllers.admin.logout.Logout',
-    '/operador/cambiar-horario', 'mvc.controllers.operador.cambiar-horario.Cambiar-horario',
-    '/operador/control-pozo', 'mvc.controllers.operador.control-pozo.Control-pozo',
-    '/operador/generar-reporte', 'mvc.controllers.operador.generar-reporte.Generar-reporte',
-    '/operador/lista-pozo', 'mvc.controllers.operador.lista-pozo.Lista-pozo',
-    '/operador/lista-usuarios', 'mvc.controllers.operador.lista-usuarios.Lista-usuarios',
+    '/operador/cambiar_horario', 'mvc.controllers.operador.cambiarhorario.CambiarHorario',
+    '/operador/control_pozo', 'mvc.controllers.operador.controlpozo.ControlPozo',
+    '/operador/generar_reporte', 'mvc.controllers.operador.generarreporte.GenerarReporte',
+    '/operador/lista_pozo', 'mvc.controllers.operador.listapozo.ListaPozo',
+    '/operador/lista_usuarios', 'mvc.controllers.operador.listausuarios.ListaUsuarios',
     '/logout', 'mvc.controllers.operador.logout.Logout',
-    '/informatica/agregar-usuario', 'mvc.controllers.informatica.agregar-usuario.Agregar-usuario',
-    '/informatica/modificar-usuario', 'mvc.controllers.informatica.modificar-usuario.Modificar-usuario',
+    '/informatica/agregar_usuario', 'mvc.controllers.informatica.agregarusuario.AgregarUsuario',
+    '/informatica/modificar_usuario', 'mvc.controllers.informatica.modificarusuario.ModificarUsuario',
     '/logout', 'mvc.controllers.informatica.logout.Logout',
 )
 
 app = web.application(urls, globals())
 
-if __name__ == "__main__":
+if name == "main":
     web.config.debug = False
     app.run()
