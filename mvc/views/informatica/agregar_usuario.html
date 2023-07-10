@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agregar Usuario</title>
   <link rel="icon" href="/static/img/favicon.png" type="image/x-icon">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/agregar_usuario.css">
 </head>
+
 <body>
   <div class="main-container d-flex">
     <div class="sidebar" id="side_nav">
       <div class="header-box justify-content-between px-2 pt-3 pb-4 d-flex">
-        <img class="logo-web" src="/static/img/logo.png"/>
+        <img class="logo-web" src="/static/img/logo.png" />
         <button class="btn d-md-none d-block close-btn me-2"><i class="bi bi-x-lg"></i></button>
       </div>
       <ul class="list-unstyled px-2">
-        <li class="active"><a href="#" class="text-decoration-none px-3 py-2 d-block">Pozos</a></li>
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">Control Remoto</a></li>
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">Usuarios</a></li>
-        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">Reportes</a></li>
+        <li class="active"><a href="#" class="text-decoration-none px-3 py-2 d-block">Agregar Usuario</a></li>
+        <li class=""><a href="#" class="text-decoration-none px-3 py-2 d-block">Modificar Usuario</a></li>
         <li class="salir"><a href="#" class="text-decoration-none px-3 py-2 d-block">Salir</a></li>
       </ul>
     </div>
@@ -36,6 +38,39 @@
       </nav>
       <div class="dashboard-content px-3 pt-4">
         <!-- Aqui va el contenido -->
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <div class="d-flex">
+            <h1 class="text-body-primary">Agregar Usuario</h1>
+          </div>
+          <form class="row g-3 justify-content-evenly">
+            <div class="row g-3 justify-content-evenly">
+              <div class="col-md-4">
+                <label for="inputEmail4" class="form-label">Correo Electronico</label>
+                <input type="email" placeholder="correo@email.com" class="form-control" id="inputEmail4">
+              </div>
+              <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">No. Control</label>
+                <input type="number" placeholder="501" class="form-control" id="inputControl14">
+              </div>
+            </div>
+            <div class="row g-3 justify-content-evenly">
+              <div class="col-md-4 align-items-">
+                <label for="inputAddress" class="form-label">Nivel</label><br>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-evenly">
+                  <button class="btn" type="button" data-bs-toggle="button">Administrador</button>
+                  <button class="btn" type="button" data-bs-toggle="button">Operador</button>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="inputAddress2" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="inputPassword14" placeholder="********">
+              </div>
+            </div>
+            <div class="row g-5 justify-content-center">
+              <button type="submit" class="btn-submit" id="agregar">Agregar Usuario</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -51,4 +86,5 @@
     });
   </script>
 </body>
+
 </html>
