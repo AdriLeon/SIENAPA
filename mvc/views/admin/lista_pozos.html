@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de Pozos</title>
   <link rel="icon" href="/static/img/favicon.png" type="image/x-icon">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://i.icomoon.io/public/temp/97774ac59e/UntitledProject/style.css">
   <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/lista_pozos.css">
 </head>
+
 <body>
   <div class="main-container d-flex">
     <div class="sidebar" id="side_nav">
       <div class="header-box justify-content-between px-2 pt-3 pb-4 d-flex">
-        <img class="logo-web" src="/static/img/logo.png"/>
+        <img class="logo-web" src="/static/img/logo.png" />
         <button class="btn d-md-none d-block close-btn me-2"><i class="bi bi-x-lg"></i></button>
       </div>
       <ul class="list-unstyled px-2">
@@ -34,8 +39,42 @@
           </div>
         </div>
       </nav>
+
       <div class="dashboard-content px-3 pt-4">
-        <!-- Aqui va el contenido -->
+        <h1 class="titulo">Lista de Pozos</h1>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <img src="/static/img/gotas.png" class="gota">
+                    <h5 class="card-title">Pozo de Valle Verde</h5>
+                    <p class="card-text"><b>Estado: </b> Encendido</p>
+                    <p class="card-text"><b>Electricidad: </b>Si</p>
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-success" type="button"><span class="icon-switch"></span></button>
+                      <button class="btn btn-info" onclick="flipCard()">Mas información
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <img src="/static/img/gotas.png" class="gota">
+                    <h5 class="card-title">Pozo de Valle Verde</h5>
+                    <p class="card-text"><b>Convenio: </b> 0123456789</p>
+                    <p class="card-text"><b>Concesión: </b> 0987654321</p>
+                    <p class="card-text"><b>Ubicación: </b> 7.558742369° 5.1598842125°</p>
+                    <p class="card-text"><b>Informacion extra: </b> Lorem ipsum dolor sit amet consectetur adipisicing
+                      elit.</p>
+                    <button class="btn btn-dark" onclick="flipCard()">Regrear</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
       </div>
     </div>
   </div>
@@ -50,5 +89,12 @@
       $('.sidebar').removeClass('active');
     });
   </script>
+  <script>
+    function flipCard() {
+      var flipCard = document.querySelector('.flip-card');
+      flipCard.classList.toggle('flipped');
+    }
+  </script>
+
 </body>
 </html>
