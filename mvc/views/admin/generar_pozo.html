@@ -43,30 +43,30 @@
         <!-- Aqui va el contenido -->
         <div class="formulario">
           <h1 class="titulo">Generar nuevo pozo</h1>
-          <form @submit="guardarDatos">
+          <form method="POST">
             <div class="input-container">
               <label for="nombre">Nombre del pozo:</label>
-              <input type="text" id="nombre" v-model="nombrePozo" required>
+              <input type="text" id="nombre" name="nombre" required>
             </div>
 
             <div class="input-container">
               <label for="ubicacion">Ubicación del pozo:</label>
-              <input type="text" id="ubicacion" v-model="ubicacionPozo" required>
+              <input type="text" id="ubicacion" name="ubicacion" required>
             </div>
 
             <div class="input-container">
               <label for="concesion">Concesión (CONAGUA) del pozo:</label>
-              <input type="text" id="concesion" v-model="concesionPozo" required>
+              <input type="text" id="concesion" name="concesion" required>
             </div>
 
             <div class="input-container">
               <label for="convenio">Convenio (CFE) del pozo:</label>
-              <input type="text" id="convenio" v-model="convenioPozo" required>
+              <input type="text" id="convenio" name="convenio" required>
             </div>
 
             <div class="input-container grande">
               <label for="informacion">Información extra del pozo:</label>
-              <textarea id="informacion" v-model="informacionExtraPozo"></textarea>
+              <input type="text" id="informacion" name="informacion">
             </div>
 
             <button type="submit" class="boton-guardar">Guardar</button>

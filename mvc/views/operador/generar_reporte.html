@@ -8,6 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/generar_reporte.css">
 </head>
 <body>
   <div class="main-container d-flex">
@@ -37,6 +38,31 @@
       </nav>
       <div class="dashboard-content px-3 pt-4">
         <!-- Aqui va el contenido -->
+        <div class="container">
+          <h2 class="title">Generar reporte de fallas</h2>
+          
+          <div class="form-group">
+            <label for="fechaInicio">Del:</label>
+            <div class="row">
+              <div class="col">
+                <input type="date" id="fechaInicio" class="form-control">
+              </div>
+              <label for="fechaFin">Hasta:</label>
+              <div class="col">
+                <input type="date" id="fechaFin" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div>
+          <button class="btn btn-primary btn-generate">Generar reporte</button>
+          </div>
+          <div class="form-group">
+            <label for="totalIncidentes">Total de incidentes: 0</label>
+            <span id="totalIncidentes"></span>
+          </div>
+          
+          <a href="#" class="download-link"><i class="fas fa-download"></i> Descargar reporte </a>
+        </div>
       </div>
     </div>
   </div>
