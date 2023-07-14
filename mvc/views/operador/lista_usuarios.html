@@ -1,3 +1,4 @@
+$def with(users)
 <!DOCTYPE html>
 <html lang="es">
 
@@ -53,19 +54,20 @@
               <h5>Nivel</h5>
             </div>
           </div>
-          <div class="row">
-            <div class="list-group">
-              <button class="list-group-item list-group-item-action" disabled>
-                <ul class="list-inline">
-                  <li class="list-inline-item">
-                    <img src="https://telegra.ph/file/59dcbd0e11bed21143c47.png" class="rounded-circle" width="40"
-                      alt="Avatar" loading="lazy" />
-                  </li>
-                  <li class="list-inline-item">Correo@dominio.com</li>
-                  <li class="list-inline-item">Administrador</li>
-                </ul>
-              </button>
-            </div>
+          <div class="row user_row overflow-y-auto">
+            $for data in users:
+              <div class="list-group">
+                <button class="list-group-item list-group-item-action" disabled>
+                  <ul class="list-inline">
+                    <li class="list-inline-item">
+                      <img src="https://telegra.ph/file/59dcbd0e11bed21143c47.png" class="rounded-circle" width="40"
+                        alt="Avatar" loading="lazy" />
+                    </li>
+                    <li class="list-inline-item">$data.val().get("correo")</li>
+                            <li class="list-inline-item">$data.val().get("nivel")</li>
+                  </ul>
+                </button>
+              </div>
           </div>
         </div>
       </div>

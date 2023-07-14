@@ -21,6 +21,10 @@
   .row {
     margin-bottom: 10px;
   }
+
+  .user_row {
+    height: 60vh;
+  } 
   
   .list-group {
     width: 90%;

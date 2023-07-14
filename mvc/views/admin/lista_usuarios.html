@@ -1,3 +1,4 @@
+$def with(users)
 <!DOCTYPE html>
 <html lang="es">
 
@@ -53,75 +54,80 @@
               <h5>Nivel</h5>
             </div>
           </div>
-          <div class="row">
-            <div class="list-group">
-              <button class="list-group-item list-group-item-action" data-bs-toggle="modal"
-                data-bs-target="#exampleModal">
-                <ul class="list-inline">
-                  <li class="list-inline-item">
-                    <img src="https://telegra.ph/file/59dcbd0e11bed21143c47.png" class="rounded-circle" width="40"
-                      alt="Avatar" loading="lazy" />
-                  </li>
-                  <li class="list-inline-item">Correo@dominio.com</li>
-                  <li class="list-inline-item">Administrador</li>
-                </ul>
-              </button>
-            </div>
-          </div>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Mas información</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="row text-center">
-                  <div class="col-lg-6">
-                    <div class="card testimonial-card">
-                      <div class="card-up" style="background-color: #73b32e;"></div>
-                      <div class="avatar mx-auto bg-white">
-                        <img src="https://telegra.ph/file/59dcbd0e11bed21143c47.png" class="rounded-circle img-fluid" />
-                      </div>
-                      <div class="card-body">
-                        <h4 class="mb-4">Usuario ######</h4>
-                        <hr />
-                        <p class="dark-grey-text mt-4">
-                          <b>Nivel: </b> #####
-                        </p>
-                        <p class="dark-grey-text mt-4">
-                          <b>N° de Control: </b> #####
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mt-4 mt-lg-0">
-                    <div class="card text-bg-secondary">
-                      <div class="card-body">
-                        <h5 class="card-title text-center">Registro de Actividades</h5>
-                      </div>
-                      <div class="scroll-container">
-                        <ul class="list-group list-group-flush">
-                          <li class="list-group-item style-list">Actividad ##</li>
-                          <li class="list-group-item style-list">Actividad ##</li>
-                          <li class="list-group-item style-list">Actividad ##</li>
-                          <li class="list-group-item style-list">Actividad ##</li>
-                          <li class="list-group-item style-list">Actividad ##</li>
-                          <li class="list-group-item style-list">Actividad ##</li>
+          <div class="row user_row overflow-y-auto">
+            $for data in users:
+                <div class="list-group">
+                    <button class="list-group-item list-group-item-action" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal-$data.key()">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <img src="https://telegra.ph/file/59dcbd0e11bed21143c47.png" class="rounded-circle"
+                                    width="40" alt="Avatar" loading="lazy" />
+                            </li>
+                            <li class="list-inline-item">$data.val().get("correo")</li>
+                            <li class="list-inline-item">$data.val().get("nivel")</li>
                         </ul>
-                      </div>
-                    </div>
-                  </div>
+                    </button>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-              </div>
-            </div>
           </div>
+
+          <!-- Modal -->
+        $for data in users:
+        <div class="modal fade" id="exampleModal-$data.key()" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Mas información</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row text-center">
+                            <div class="col-lg-6">
+                                <div class="card testimonial-card">
+                                    <div class="card-up" style="background-color: #73b32e;"></div>
+                                    <div class="avatar mx-auto bg-white">
+                                        <img src="https://telegra.ph/file/59dcbd0e11bed21143c47.png"
+                                            class="rounded-circle img-fluid" />
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="mb-4">Usuario $data.val().get("correo")</h4>
+                                        <hr />
+                                        <p class="dark-grey-text mt-4">
+                                            <b>Nivel: </b> $data.val().get("nivel")
+                                        </p>
+                                        <p class="dark-grey-text mt-4">
+                                            <b>N° de Control: </b> $data.val().get("no_control")
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 mt-4 mt-lg-0">
+                                <div class="card text-bg-secondary">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center">Registro de Actividades</h5>
+                                    </div>
+                                    <div class="scroll-container">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item style-list">Actividad ##</li>
+                                            <li class="list-group-item style-list">Actividad ##</li>
+                                            <li class="list-group-item style-list">Actividad ##</li>
+                                            <li class="list-group-item style-list">Actividad ##</li>
+                                            <li class="list-group-item style-list">Actividad ##</li>
+                                            <li class="list-group-item style-list">Actividad ##</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
         </div>
+        </div>
+       
       </div>
     </div>
   </div>
