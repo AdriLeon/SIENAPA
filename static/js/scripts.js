@@ -11,8 +11,28 @@ $(".operador").on("click", function () {
   $('#boton-valor').val(valorBoton); // Actualizar el campo oculto del formulario
 });
 $('.open-btn').click(function () {
-    $('.sidebar').addClass('active');
-  });
+  $('.sidebar').addClass('active');
+});
 $('.close-btn').click(function () {
-    $('.sidebar').removeClass('active');
-  });
+  $('.sidebar').removeClass('active');
+});
+$("#selectUsuario").on("change", function () {
+  var selectedOption = $(this).children("option:selected");
+  var optionId = selectedOption.attr("id");
+  var optionValue = selectedOption.attr("class");
+  $('#select-valor').val(optionValue);
+  console.log(optionValue);
+  $('#no_control').val(optionId);
+  if ($(this).val() == "administrador") {
+    $('.admin').addClass("active");
+    $('.operador').removeClass("active");
+    var valorBoton = $(this).val();
+    $('#boton-valor').val(valorBoton);
+  }
+  if ($(this).val() == "operador") {
+    $('.operador').addClass("active");
+    $('.admin').removeClass("active");
+    var valorBoton = $(this).val();
+    $('#boton-valor').val(valorBoton);
+  }
+});
