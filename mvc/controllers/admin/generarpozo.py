@@ -3,7 +3,7 @@ import pyrebase
 import firebase_config as token
 import app as app
 import json
-import random
+from datetime import datetime
 
 render = web.template.render("mvc/views/admin/") #ruta de las vistas
 
@@ -23,8 +23,14 @@ class GenerarPozo: #clase Index
             concesion = formulario.concesion
             ubicacion = formulario.ubicacion
             informacion = formulario.informacion
-            numero = random.randint(1000, 2000)
-            idpozo = hex(numero)
+            localId =  web.cookies().get('localId')
+            accion = "Registro de pozo"
+            fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            registro = {
+                "actividad": accion,
+                "fecha": fecha
+            }
+            db.child("data").child("usuarios").child(localId).child("logs").push(registro)
             data = {
                 "concesion": concesion,
                 "convenio": convenio,
@@ -51,7 +57,7 @@ class GenerarPozo: #clase Index
                     "h_encendido": "13:10:11"
                 }
             }
-            db.child("data").child("pozos").child(idpozo).set(data)
+            db.child("data").child("pozos").push(data)
             return web.seeother("/admin/generar-pozo")
 
         except Exception as error:
