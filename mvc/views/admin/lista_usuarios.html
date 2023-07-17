@@ -108,19 +108,15 @@ $def with(users)
                                     </div>
                                     <div class="scroll-container">
                                         <ul class="list-group list-group-flush">
-                                            <li class="list-group-item style-list">Actividad ##</li>
-                                            <li class="list-group-item style-list">Actividad ##</li>
-                                            <li class="list-group-item style-list">Actividad ##</li>
-                                            <li class="list-group-item style-list">Actividad ##</li>
-                                            <li class="list-group-item style-list">Actividad ##</li>
-                                            <li class="list-group-item style-list">Actividad ##</li>
+                                          $for log_key, log_data in data.val().get("logs", {}).items():
+                                          <li class="list-group-item style-list">$log_data.get("actividad") - $log_data.get("fecha")</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer">  
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
