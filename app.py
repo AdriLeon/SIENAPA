@@ -8,16 +8,14 @@ urls = (
     '/admin/control-pozo', 'mvc.controllers.admin.controlpozo.ControlPozo',
     '/admin/lista-usuarios', 'mvc.controllers.admin.listausuarios.ListaUsuarios',
     '/admin/generar-reporte', 'mvc.controllers.admin.generarreporte.GenerarReporte',
-    '/logout', 'mvc.controllers.admin.logout.Logout',
+    '/logout', 'mvc.controllers.public.logout.Logout',
     '/operador/cambiar-horario', 'mvc.controllers.operador.cambiarhorario.CambiarHorario',
     '/operador/control-pozo', 'mvc.controllers.operador.controlpozo.ControlPozo',
     '/operador/generar-reporte', 'mvc.controllers.operador.generarreporte.GenerarReporte',
-    '/operador/lista-pozo', 'mvc.controllers.operador.listapozo.ListaPozo',
+    '/operador/lista-pozos', 'mvc.controllers.operador.listapozo.ListaPozo',
     '/operador/lista-usuarios', 'mvc.controllers.operador.listausuarios.ListaUsuarios',
-    '/logout', 'mvc.controllers.operador.logout.Logout',
     '/informatica/agregar-usuario', 'mvc.controllers.informatica.agregarusuario.AgregarUsuario',
     '/informatica/modificar-usuario', 'mvc.controllers.informatica.modificarusuario.ModificarUsuario',
-    '/logout', 'mvc.controllers.informatica.logout.Logout',
 )
 
 app = web.application(urls, globals())
