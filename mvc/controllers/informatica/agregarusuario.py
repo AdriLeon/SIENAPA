@@ -12,8 +12,20 @@ db = firebase.database()
 
 class AgregarUsuario: #clase Index
     def GET(self):
-        return render.agregar_usuario()
-    
+        cookie = web.cookies().get("localid") #almacena los datos de la cookie
+        users = db.child('data').child('usuarios').get()
+        pozos = db.child('data').child('pozos').get()
+        for user in users.each():
+            if user.key() == cookie and user.val()['nivel'] == 'administrador':
+                return web.seeother('/logout')
+            elif user.key() == cookie and user.val()['nivel'] == 'operador':
+                web.setcookie('localid', None)
+                return web.seeother('/logout')
+            elif user.key() == cookie and user.val()['nivel'] == 'informatica':
+                return render.agregar_usuario()
+        web.setcookie('localid', None)
+        return web.seeother('/logout')
+
     def POST(self):
         try:
             formulario = web.input() #almacena los datos del formulario web

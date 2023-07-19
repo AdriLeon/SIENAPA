@@ -1,39 +1,55 @@
-.d-flex{
-    margin-bottom: 50px;
-  }
-  form{
-    text-align: center;
-  }
-  .d-grid .btn{
-    background-color: #D4D4D4;
-  }
-  #agregar, #modificar{
-    background-color: #71B530;
-    color: #000;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    width: 30%;
-  }
-  #eliminar{
-    background-color: #c42727;
-    color: #000;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    width: 30%;
-  }
-  .d-grid .btn:hover{
-    background-color: #d4d4d496;
-  }
-  .btn.active, .btn.active {
-    background-color: #E5007E;
-    border: none;
-    color: #fff;
-  }
+.titulo {
+  color: #fff;
+}
 
-  @media (max-width: 767px) {
-    #agregar, #modificar, #eliminar{
+.d-flex {
+  margin-bottom: 50px;
+}
+
+form {
+  text-align: center;
+}
+
+.d-grid .btn {
+  background-color: #D4D4D4;
+}
+
+#agregar,
+#modificar {
+  background-color: #71B530;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  width: 30%;
+}
+
+#eliminar {
+  background-color: #c42727;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  width: 30%;
+}
+
+.d-grid .btn:hover {
+  background-color: #d4d4d496;
+}
+
+.btn.active,
+.btn.active {
+  background-color: #E5007E;
+  border: none;
+  color: #fff;
+}
+
+@media (max-width: 767px) {
+
+  #agregar,
+  #modificar,
+  #eliminar {
     width: 60%;
     justify-content: center;
-  }}
+  }
+}

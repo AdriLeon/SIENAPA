@@ -36,3 +36,22 @@ $("#selectUsuario").on("change", function () {
     $('#boton-valor').val(valorBoton);
   }
 });
+$("#selectPozo").on("change", function () {
+  var selectedOption = $(this).children("option:selected");
+  var estado = selectedOption.attr("id");
+  var horarios = selectedOption.attr("class");
+  $('#horario').text(horarios);
+  $('#estado').val(estado);
+  if (estado == "1") {
+    $('#flexSwitchCheckDefault').prop('checked', true);
+  } else {
+    $('#flexSwitchCheckDefault').prop('checked', false);
+  }
+});
+$('#flexSwitchCheckDefault').on('change', function () {
+  if ($(this).is(':checked')) {
+    $('#estado').val("1");
+  } else {
+    $('#estado').val("0");
+  }
+})
