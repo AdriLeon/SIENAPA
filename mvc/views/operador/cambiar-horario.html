@@ -22,16 +22,10 @@ $def with (id_pozo, horarios)
         <button class="btn d-md-none d-block close-btn me-2"><i class="bi bi-x-lg"></i></button>
       </div>
       <ul class="list-unstyled px-2">
-<<<<<<< HEAD
-        <li class="active"><a href="/admin/lista-pozos" class="text-decoration-none px-3 py-2 d-block">Pozos</a></li>
-        <li class=""><a href="/admin/control-pozo" class="text-decoration-none px-3 py-2 d-block">Control Remoto</a>
-        </li>
-=======
-        <li class=""><a href="/admin/lista-pozos" class="text-decoration-none px-3 py-2 d-block">Pozos</a></li>
-        <li class="active"><a href="/admin/control-pozo" class="text-decoration-none px-3 py-2 d-block">Control Remoto</a></li>
->>>>>>> 9ce9a0ab34561b4df34aa8c69f7b1a4b45b0ecc2
-        <li class=""><a href="/admin/lista-usuarios" class="text-decoration-none px-3 py-2 d-block">Usuarios</a></li>
-        <li class=""><a href="/admin/generar-reporte" class="text-decoration-none px-3 py-2 d-block">Reportes</a></li>
+        <li class=""><a href="/operador/lista-pozos" class="text-decoration-none px-3 py-2 d-block">Pozos</a></li>
+        <li class="active"><a href="/operador/control-pozo" class="text-decoration-none px-3 py-2 d-block">Control Remoto</a></li>
+        <li class=""><a href="/operador/lista-usuarios" class="text-decoration-none px-3 py-2 d-block">Usuarios</a></li>
+        <li class=""><a href="/operador/generar-reporte" class="text-decoration-none px-3 py-2 d-block">Reportes</a></li>
         <li class="salir"><a href="/logout" class="text-decoration-none px-3 py-2 d-block">Salir</a></li>
       </ul>
     </div>
@@ -74,25 +68,6 @@ $def with (id_pozo, horarios)
                 <label class="form-check-label" for="seventhCheckbox">Domingo</label>
               </div>
             </div>
-<<<<<<< HEAD
-            <form method="post">
-              <div class="col horario">
-                <h5>Horario</h5>
-                <div class="d-flex justify-content-center align-items-center">
-                  <label class="me-3" for="time1">De</label>
-                  <input type="time" name="time1" step="1800" class="custom-input"
-                    value="$horarios.val().get('h_encendido')">
-                  <label class="ms-3" for="time2">Hasta</label>
-                  <input type="time" name="time2" step="1800" class="custom-input"
-                    value="$horarios.val().get('h_apagado')">
-                  <input type="hidden" name="id_pozo" value="$id_pozo">
-                </div>
-              </div>
-              <div class="col-12 text-center mt-4">
-                <button type="submit" class="btn btn-primary" id="guardarHorasBtn">Guardar horas</button>
-              </div>
-            </form>
-=======
             <div class="col horario">
               <h5>Horario</h5>
               <form method="post">
@@ -111,7 +86,6 @@ $def with (id_pozo, horarios)
                   <button type="submit" class="btn btn-primary" id="guardarHorasBtn">Guardar horas</button>
                 </div>
               </form>
->>>>>>> 9ce9a0ab34561b4df34aa8c69f7b1a4b45b0ecc2
           </div>
         </div>
       </div>
@@ -122,11 +96,7 @@ $def with (id_pozo, horarios)
   <script src="../../../static/js/scripts.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-<<<<<<< HEAD
-    import { getDatabase, ref, update, child, get, push } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
-=======
     import { getDatabase, ref, update, child, get, push, } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
->>>>>>> 9ce9a0ab34561b4df34aa8c69f7b1a4b45b0ecc2
 
     // Your web app's Firebase configuration
     const firebaseConfig = {
@@ -143,11 +113,7 @@ $def with (id_pozo, horarios)
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const id_pozo = document.getElementById('id_pozo').value;
-<<<<<<< HEAD
-
-=======
   
->>>>>>> 9ce9a0ab34561b4df34aa8c69f7b1a4b45b0ecc2
     function getData(dia) {
       const dbref = ref(db);
       get(child(dbref, 'data/pozos/' + id_pozo + '/horario/' + dia)).then((snapshot) => {
@@ -175,17 +141,6 @@ $def with (id_pozo, horarios)
       for (let i = 1; i <= 7; i++) {
         getData("dia" + i);
       }
-<<<<<<< HEAD
-    });
-    document.getElementById('dia1').addEventListener('click', function () { //Lunes, cambia el valor de dia1 hasta el dia7 para que se cambie cada checkbox
-      if (document.getElementById('dia1').checked) {
-        setData("dia1", 1);
-      }
-      else {
-        setData("dia1", 0);
-      }
-=======
->>>>>>> 9ce9a0ab34561b4df34aa8c69f7b1a4b45b0ecc2
     });
     function actualizarCheckbox(dia) {
       const checkbox = document.getElementById(dia);
@@ -209,3 +164,6 @@ $def with (id_pozo, horarios)
 </body>
 
 </html>
+
+
+
