@@ -23,19 +23,23 @@
   }
 
   .user_row {
-    height: 60vh;
-  } 
-  
-  .list-group {
-    width: 90%;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .list-group-item {
-    margin-bottom: 10px;
-    height: 60px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 60vh;
+  flex-wrap: wrap; /* Esta propiedad hará que los elementos se distribuyan en varias filas */
+}
+
+.list-group {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.list-group-item {
+  margin-bottom: 15px;
+  height: 60px;
+}
   
   .list-inline {
     display: flex;

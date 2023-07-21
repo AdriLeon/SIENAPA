@@ -34,7 +34,6 @@ class AgregarUsuario: #clase Index
             password = formulario['inputPassword14'] #almacena el password del formulario web
             nivel = formulario['nivel'] #almacena el nivel del formulario web
             user = auth.create_user_with_email_and_password(email, password) #crea el usuario en firebase
-            chid = user['localId'] #almacena el id del usuario
             accion = "Registro del usuario #" + str(no_control)
             fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             registro = {
