@@ -35,6 +35,11 @@ $("#selectUsuario").on("change", function () {
     $('#boton-valor').val(valorBoton);
   }
 });
+$('#selectPozo').on('change', function () {
+  var selectedOption = $(this).children("option:selected");
+  var optionValue = selectedOption.attr("class");
+  $('#horario').text(optionValue);
+});
 $('#btn_flip').click(function () {
   $(this).$('.flip-card').addClass('flipped');
 });
