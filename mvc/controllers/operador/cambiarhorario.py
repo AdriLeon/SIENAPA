@@ -1,3 +1,6 @@
+
+
+
 import web
 import app as app
 import pyrebase
@@ -29,3 +32,11 @@ class CambiarHorario:
             horarios = db.child('data').child('pozos').child(id_pozo).child('horario').get()
             print("Error cambiar_horario POST: {}".format(error.args))
             return render.cambiar_horario(id_pozo, horarios)
+
+
+
+
+
+
+
+
