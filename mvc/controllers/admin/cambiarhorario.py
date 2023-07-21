@@ -1,26 +1,31 @@
 import web
-<<<<<<< HEAD
-import app
+import app as app
+import pyrebase
+import firebase_config as token
+import json
 
-render = web.template.render("mvc/views/admin/") #ruta de las vistas
-
-class CambiarHorario: #clase Index
-    def GET(self):
-        return render.cambiar_horario()
-=======
-
-urls = (
-    '/admin/cambiar_horario', 'mvc.controllers.admin.cambiar_horario.CambiarHorario',
-)
+render = web.template.render("mvc/views/admin/") 
+firebase = pyrebase.initialize_app(token.firebaseConfig)
+auth = firebase.auth() 
+db = firebase.database()
 
 class CambiarHorario:
-    def GET(self):
-        Cambiar_Horario = "Cambiar Horario"
-        return render.cambiar_horario()
+    def GET(self, id_pozo):
+        horarios = db.child('data').child('pozos').child(id_pozo).child('horario').get() #obtiene los horarios de la base de datos
+        return render.cambiar_horario(id_pozo, horarios)
 
-app = web.application(urls, globals())
-render = web.template.render('mvc/views/admin')
-
-if __name__ == '__main__':
-    app.run()
->>>>>>> 06e91c54030dc32fdbe749d141941f2d77dfb3a6
+    def POST(self, id_pozo):
+        try:
+            formulario = web.input() #almacena los datos del formulario
+            time1 = formulario['time1']
+            time2 = formulario['time2']
+            data = { #crea el diccionario data
+                'h_apagado': str(time1),
+                'h_encendido': str(time2),
+            }
+            db.child('data').child('pozos').child(id_pozo).child('horario').update(data) #actualiza los datos del horario
+            return web.seeother('/admin/control-pozo') #redirecciona a la pagina de pozos
+        except Exception as error:
+            horarios = db.child('data').child('pozos').child(id_pozo).child('horario').get()
+            print("Error cambiar_horario POST: {}".format(error.args))
+            return render.cambiar_horario(id_pozo, horarios)
