@@ -1,3 +1,4 @@
+/* Estilos generales */
 .main-container {
   display: flex;
   flex-wrap: wrap;
@@ -72,13 +73,25 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* Centrar elementos horizontalmente */
+  justify-content: center; /* Centrar elementos verticalmente */
   margin-top: 15px;
 }
 
 .custom-input {
-  width: 100px;
+  width: 500px; /* Modificamos el ancho al 80% */
+  max-width: 200px; /* Establecemos un ancho máximo */
+  text-align: center; /* Centramos el texto dentro del input */
+  padding: 5px; /* Aumentar el relleno para mejorar la apariencia */
+  margin-bottom: 20px;
+}
+
+.horario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 50px; /* Espaciado entre la tarjeta y el contenido */
 }
 
 .text-center {
@@ -95,12 +108,10 @@
 }
 
 /* Media Queries */
-
 @media screen and (max-width: 768px) {
   .sidebar {
     width: 100%;
     padding: 10px;
-
   }
 
   .content {
@@ -117,6 +128,7 @@
   
   .custom-input {
     width: 100%;
+    max-width: none; /* Eliminamos el ancho máximo en pantallas pequeñas */
   }
 
   .align-center {
@@ -127,10 +139,12 @@
   .titulo {
     color: rgb(0, 0, 0);
   }
+  
   .horario {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    
   }
 }
