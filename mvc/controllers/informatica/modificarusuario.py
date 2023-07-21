@@ -11,6 +11,7 @@ db = firebase.database()
 class ModificarUsuario: #clase Index
     def GET(self):
         cookie = web.cookies().get("localid") #almacena los datos de la cookie
+        horarios_data = db.child('data').child('pozos').child('horarios').get()
         users = db.child('data').child('usuarios').get()
         pozos = db.child('data').child('pozos').get()
         for user in users.each():

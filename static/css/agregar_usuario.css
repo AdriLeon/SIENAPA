@@ -24,8 +24,17 @@ form {
   width: 30%;
 }
 
-#eliminar {
+#desactivar {
+  
   background-color: #c42727;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  width: 30%;
+}
+#activar {
+  background-color: #27c427;
   color: #000;
   border: none;
   border-radius: 5px;
