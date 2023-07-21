@@ -115,8 +115,13 @@ $def with(pozos)
 
 
       function updateData() {
+        if (document.getElementById('flexSwitchCheckDefault').checked) {
+          estadoElement.value = "Encendido";
+        } else {
+          estadoElement.value = "Apagado";
+        }
         update(ref(db, 'data/pozos/' + selectElement.value + '/estado_pozo'), {
-          estado: parseInt(estadoElement.value)
+          estado: estadoElement.value,
         });
       }
 
@@ -139,7 +144,7 @@ $def with(pozos)
       }
 
       function setLog() {
-        if (estadoElement.value == "1") {
+        if (estadoElement.value == "Encendido") {
           setLogEncendido();
         } else {
           setLogApagado();
@@ -149,10 +154,11 @@ $def with(pozos)
       function readData() {
         document.getElementById('link_cambiar').href = "/admin/cambiar-horario/" + selectElement.value;
         const dbref = ref(db)
-        get(child(dbref, 'data/pozos/' + selectElement.value + '/estado_pozo/estado')).then((snapshot) => {
+        get(child(dbref, 'data/pozos/' + selectElement.value + '/estado_pozo/estado/')).then((snapshot) => {
           if (snapshot.exists()) {
             estadoElement.value = snapshot.val();
-            if (estadoElement.value == "1") {
+            console.log(estadoElement.value);
+            if (estadoElement.value == "Encendido") {
               document.getElementById('flexSwitchCheckDefault').checked = true;
             } else {
               document.getElementById('flexSwitchCheckDefault').checked = false;
@@ -163,24 +169,12 @@ $def with(pozos)
         }).catch((error) => {
           console.error(error);
         });
-        get(child(dbref, 'data/pozos/' + selectElement.value + '/nombre')).then((snapshot) => {
-          if (snapshot.exists()) {
-            pozo = snapshot.val();
-            console.log(pozo);
-          } else {
-            console.log("No data available");
-          }
-        }).catch((error) => {
-          console.error(error);
-        });
       }
-
 
       document.getElementById('flexSwitchCheckDefault').addEventListener('change', function () {
         updateData();
         setLog();
       });
-
       document.getElementById('selectPozo').addEventListener('change', function () {
         readData();
       });
