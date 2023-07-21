@@ -36,7 +36,7 @@ $def with (users)
             <button class="btn px-1 py-0 open-btn me-2"><i class="bi bi-list"></i></button>
           </div>
           <div>
-            <img class="logo-mob" src="/static/img/logo.png"/>
+            <img class="logo-mob" src="/static/img/logo.png" />
           </div>
         </div>
       </nav>
@@ -78,6 +78,7 @@ $def with (users)
             </div>
             <div class="row g-5 justify-content-center">
               <button type="submit" class="btn-submit" id="modificar">Modificar Usuario</button>
+              <p id="mensajeParrafo"></p>
             </div>
             <div class="row g-5 justify-content-end">
               <button type="submit" class="btn-submit" id="desactivar">Eliminar Usuario</button>
@@ -112,7 +113,7 @@ $def with (users)
     const db = getDatabase(app);
     const dbref = ref(db)
 
-    const estadoElement = document.getElementById('select-valor');
+    let estadoElement = document.getElementById('select-valor');
 
     function getEstado() {
       get(child(dbref, 'data/usuarios/' + estadoElement.value + '/status')).then((snapshot) => {
@@ -131,8 +132,75 @@ $def with (users)
         console.error(error);
       });
     }
+    function activo() {
+      update(ref(db, 'data/usuarios/' + estadoElement.value), {
+        status: "activo"
+      });
+    }
+    function inactivo() {
+      update(ref(db, 'data/usuarios/' + estadoElement.value), {
+        status: "inactivo"
+      });
+    }
+    function informatica() {
+      get(child(dbref, 'data/usuarios/' + estadoElement.value + '/nivel')).then((snapshot) => {
+        if (snapshot.exists()) {
+          if (snapshot.val() == "informatica") {
+            // Ocultar elementos con los IDs "desactivar" y "activar"
+            document.getElementById('desactivar').style.display = "none";
+            document.getElementById('activar').style.display = "none";
+            document.getElementById('modificar').style.display = "none";
+            var adminElements = document.getElementsByClassName('admin');
+            var operadorElements = document.getElementsByClassName('operador');
+            for (var i = 0; i < adminElements.length; i++) {
+              adminElements[i].disabled = true;
+              adminElements[i].className = adminElements[i].className.replace(/\bactive\b/g, ''); // Eliminar la clase "active"
+
+            }
+            for (var j = 0; j < operadorElements.length; j++) {
+              operadorElements[j].disabled = true;
+              operadorElements[j].className = operadorElements[j].className.replace(/\bactive\b/g, ''); // Eliminar la clase "active"
+            }
+            document.getElementById('mensajeParrafo').innerHTML = "No puedes modificar este usuario";
+            document.getElementById('mensajeParrafo').style.color = "red";
+            document.getElementById('mensajeParrafo').style.fontWeight = "bold";
+            document.getElementById('mensajeParrafo').style.backgroundColor = "#f5f5f5";
+            document.getElementById('mensajeParrafo').style.width = "auto";
+            document.getElementById('mensajeParrafo').style.padding = "10px";
+            document.getElementById('mensajeParrafo').style.borderRadius = "10px";
+            // Desactivar el elemento con el ID "no_control"
+            document.getElementById('no_control').readOnly = true;
+          }else{
+            document.getElementById('modificar').style.display = "block";
+            var adminElements = document.getElementsByClassName('admin');
+            var operadorElements = document.getElementsByClassName('operador');
+            for (var i = 0; i < adminElements.length; i++) {
+              adminElements[i].disabled = false;
+            }
+            for (var j = 0; j < operadorElements.length; j++) {
+              operadorElements[j].disabled = false;
+            }
+            document.getElementById('mensajeParrafo').innerHTML = "";
+            document.getElementById('mensajeParrafo').style.backgroundColor = "transparent";
+            // Desactivar el elemento con el ID "no_control"
+            document.getElementById('no_control').readOnly = false;
+          }
+        } else {
+          console.log("No data available");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
     document.getElementById('selectUsuario').addEventListener('change', function () {
       getEstado();
+      informatica();
+    });
+    document.getElementById('desactivar').addEventListener('click', function () {
+      inactivo();
+    });
+    document.getElementById('activar').addEventListener('click', function () {
+      activo();
     });
   </script>
 </body>

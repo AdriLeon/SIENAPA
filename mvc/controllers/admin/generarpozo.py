@@ -39,7 +39,7 @@ class GenerarPozo: #clase Index
                 "ubicacion": ubicacion,
                 "estado_pozo": {
                     "electricidad": 0,
-                    "estado": 0,
+                    "estado": 'Apagado',
                     "fallas": 0,
                     "id_falla": 0,
                     "t_activo": 0,
@@ -53,8 +53,8 @@ class GenerarPozo: #clase Index
                     "dia5": 0,
                     "dia6": 0,
                     "dia7": 0,
-                    "h_apagado": "13:10:11",
-                    "h_encendido": "13:10:11"
+                    "h_apagado": "",
+                    "h_encendido": ""
                 }
             }
             db.child("data").child("pozos").push(data)
