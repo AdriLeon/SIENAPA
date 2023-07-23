@@ -112,8 +112,10 @@ $def with (users)
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const dbref = ref(db)
+    const getCookie = () => document.cookie.split('; ').find(cookie => cookie.startsWith('localid=')).split('=')[1] || null;
 
     let estadoElement = document.getElementById('select-valor');
+    let correoSeleccionado = "";
 
     function getEstado() {
       get(child(dbref, 'data/usuarios/' + estadoElement.value + '/status')).then((snapshot) => {
@@ -133,15 +135,50 @@ $def with (users)
       });
     }
     function activo() {
-      update(ref(db, 'data/usuarios/' + estadoElement.value), {
-        status: "activo"
-      });
+      try {
+        update(ref(db, 'data/usuarios/' + estadoElement.value), {
+          status: "activo"
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    function setLog1() {
+      const currentDate = new Date();
+      const utcMinus6Date = new Date(currentDate.getTime() - (6 * 60 * 60 * 1000));
+      const formattedDateTime = utcMinus6Date.toISOString().slice(0, 19).replace('T', ' ');
+      try {
+        push(ref(db, 'data/usuarios/' + getCookie() + '/logs/'), {
+          actividad: "Dio de baja el usuario: " + correoSeleccionado,
+          fecha: formattedDateTime,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
     function inactivo() {
-      update(ref(db, 'data/usuarios/' + estadoElement.value), {
-        status: "inactivo"
-      });
+      try {
+        update(ref(db, 'data/usuarios/' + estadoElement.value), {
+          status: "inactivo"
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
+    function setLog2() {
+      try {
+        const currentDate = new Date();
+        const utcMinus6Date = new Date(currentDate.getTime() - (6 * 60 * 60 * 1000));
+        const formattedDateTime = utcMinus6Date.toISOString().slice(0, 19).replace('T', ' ');
+        push(ref(db, 'data/usuarios/' + getCookie() + '/logs/'), {
+          actividad: "Dio de alta el usuario: " + correoSeleccionado,
+          fecha: formattedDateTime,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     function informatica() {
       get(child(dbref, 'data/usuarios/' + estadoElement.value + '/nivel')).then((snapshot) => {
         if (snapshot.exists()) {
@@ -170,7 +207,7 @@ $def with (users)
             document.getElementById('mensajeParrafo').style.borderRadius = "10px";
             // Desactivar el elemento con el ID "no_control"
             document.getElementById('no_control').readOnly = true;
-          }else{
+          } else {
             document.getElementById('modificar').style.display = "block";
             var adminElements = document.getElementsByClassName('admin');
             var operadorElements = document.getElementsByClassName('operador');
@@ -198,9 +235,15 @@ $def with (users)
     });
     document.getElementById('desactivar').addEventListener('click', function () {
       inactivo();
+      setLog1();
     });
     document.getElementById('activar').addEventListener('click', function () {
       activo();
+      setLog2();
+    });
+    document.getElementById('selectUsuario').addEventListener("change", function () {
+      correoSeleccionado = this.options[this.selectedIndex].text;
+      console.log(correoSeleccionado);
     });
   </script>
 </body>

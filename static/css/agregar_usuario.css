@@ -53,6 +53,12 @@ form {
   color: #fff;
 }
 
+.alert{
+  height: 50px;
+  width: 250px;
+  justify-content: center;
+}
+
 @media (max-width: 767px) {
 
   #agregar,

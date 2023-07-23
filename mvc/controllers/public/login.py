@@ -31,7 +31,7 @@ class Login: #clase Index
             web.setcookie('localid', local_id)
             busqueda =  db.child("data").child("usuarios").child(user['localId']).get()
             if busqueda.val()['nivel'] == 'administrador' and busqueda.val()['status'] == "activo":
-                actividad = "Inicio de sesión"
+                actividad = "Ingreso al sistema"
                 registro = {
                     "actividad": actividad,
                     "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -39,7 +39,7 @@ class Login: #clase Index
                 db.child("data").child("usuarios").child(user['localId']).child("logs").push(registro)
                 return web.seeother("/admin/lista-pozos")
             elif busqueda.val()['nivel'] == "operador" and busqueda.val()['status'] == "activo":
-                actividad = "Inicio de sesión"
+                actividad = "Ingreso al sistema"
                 registro = {
                     "actividad": actividad,
                     "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -47,7 +47,7 @@ class Login: #clase Index
                 db.child("data").child("usuarios").child(user['localId']).child("logs").push(registro)
                 return web.seeother("/operador/lista-pozos")
             elif busqueda.val()['nivel'] == "informatica":
-                actividad = "Inicio de sesión"
+                actividad = "Ingreso al sistema"
                 registro = {
                     "actividad": actividad,
                     "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
