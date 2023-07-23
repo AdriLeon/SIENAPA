@@ -2,6 +2,7 @@ import web
 import app
 import pyrebase
 import firebase_config as token
+from datetime import datetime
 
 render = web.template.render("mvc/views/informatica/") #ruta de las vistas
 firebase = pyrebase.initialize_app(token.firebaseConfig)
@@ -28,8 +29,12 @@ class ModificarUsuario: #clase Index
     def POST(self):
         try:
             #obtiene los datos del formulario
+            cookie = web.cookies().get("localid") #almacena los datos de la cookie
             formulario = web.input()
             id = formulario['id']
+            users = db.child('data').child('usuarios').child(id).get()
+            a_nivel = users.val().get('nivel')
+            n_control = users.val().get('no_control')
             no_control = formulario['inputControl14']
             nivel = formulario['nivel']
             data = { #crea el diccionario data
@@ -37,6 +42,22 @@ class ModificarUsuario: #clase Index
                 'no_control': no_control,
             }
             db.child('data').child('usuarios').child(id).update(data) #actualiza los datos del usuario
+            if (int(n_control) != int(no_control)):
+                actividad = 'Modificó numero de control ' + str(n_control) + ' a ' + str(no_control) + ' del usuario ' + str(users.val().get('correo'))
+                fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                log = {
+                    'actividad': actividad,
+                    'fecha': fecha
+                }
+                db.child('data').child('usuarios').child(cookie).child('logs').push(log)
+            if (a_nivel != nivel):
+                actividad = 'Modificó el nivel ' + str(a_nivel) + ' a ' + str(nivel) + ' del usuario' + str(users.val().get('correo'))
+                fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                log = {
+                    'actividad': actividad,
+                    'fecha': fecha
+                }
+                db.child('data').child('usuarios').child(cookie).child('logs').push(log)
             return web.seeother('/informatica/modificar-usuario') #redirecciona a la pagina de usuarios
         except Exception as error:
             users = db.child('data').child('usuarios').get()
