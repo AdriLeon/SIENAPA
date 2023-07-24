@@ -12,7 +12,7 @@ db = firebase.database()
 class CambiarHorario:
     def GET(self, id_pozo):
         horarios = db.child('data').child('pozos').child(id_pozo).child('horario').get() #obtiene los horarios de la base de datos
-        return render.hora(id_pozo, horarios)
+        return render.cambiar_hora(id_pozo, horarios)
 
     def POST(self, id_pozo):
         try:
@@ -28,4 +28,4 @@ class CambiarHorario:
         except Exception as error:
             horarios = db.child('data').child('pozos').child(id_pozo).child('horario').get()
             print("Error cambiar_horario POST: {}".format(error.args))
-            return render.cambiar_horario(id_pozo, horarios)
+            return render.cambiar_hora(id_pozo, horarios)
