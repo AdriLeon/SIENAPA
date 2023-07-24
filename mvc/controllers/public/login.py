@@ -3,6 +3,7 @@ import app
 import json
 import firebase_config as token
 import pyrebase
+from datetime import datetime
 
 render = web.template.render("mvc/views/public/")
 
@@ -29,23 +30,41 @@ class Login: #clase Index
             local_id =  (user ['localId'])
             web.setcookie('localid', local_id)
             busqueda =  db.child("data").child("usuarios").child(user['localId']).get()
-            if busqueda.val()['nivel'] == 'administrador':
-                if busqueda.val()['status'] == "inactivo":  
-                    return render.login(mensaje)
-                else:
-                    return web.seeother("/admin/lista-pozos")
-            elif busqueda.val()['nivel'] == "operador":
-                if busqueda.val()['status'] == "inactivo": 
-                    return render.login(mensaje)
-                else:
-                    return web.seeother("/operador/lista-pozos")
+            if busqueda.val()['nivel'] == 'administrador' and busqueda.val()['status'] == "activo":
+                actividad = "Ingreso al sistema"
+                registro = {
+                    "actividad": actividad,
+                    "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                }
+                db.child("data").child("usuarios").child(user['localId']).child("logs").push(registro)
+                return web.seeother("/admin/lista-pozos")
+            elif busqueda.val()['nivel'] == "operador" and busqueda.val()['status'] == "activo":
+                actividad = "Ingreso al sistema"
+                registro = {
+                    "actividad": actividad,
+                    "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                }
+                db.child("data").child("usuarios").child(user['localId']).child("logs").push(registro)
+                return web.seeother("/operador/lista-pozos")
             elif busqueda.val()['nivel'] == "informatica":
-                    return web.seeother("/informatica/agregar-usuario")
+                actividad = "Ingreso al sistema"
+                registro = {
+                    "actividad": actividad,
+                    "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                }
+                db.child("data").child("usuarios").child(user['localId']).child("logs").push(registro)
+                return web.seeother("/informatica/agregar-usuario")
+            else:
+                mensaje = "Usuario inactivo"
+                return render.login(mensaje)
                     
         except Exception as error: # Error en formato JSON
             formato = json.loads(error.args[1])
-            error = formato['error'] 
-            mensaje = error['mensaje']
-            if mensaje == "invalid_password" :
+            error = formato['error']
+            mensaje = error['message']
+            if mensaje == "EMAIL_NOT_FOUND":
+                mensaje = "Correo no encontrado"
                 return render.login(mensaje) 
-            print("Error login.POST: {}".format(mensaje)) 
+            elif mensaje == "INVALID_PASSWORD":
+                mensaje = "Contraseña incorrecta"
+                return render.login(mensaje)

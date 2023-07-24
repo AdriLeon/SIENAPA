@@ -24,7 +24,7 @@ class GenerarPozo: #clase Index
             ubicacion = formulario.ubicacion
             informacion = formulario.informacion
             localId =  web.cookies().get('localId')
-            accion = "Registro de pozo"
+            accion = "Registro el pozo " + nombre
             fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             registro = {
                 "actividad": accion,

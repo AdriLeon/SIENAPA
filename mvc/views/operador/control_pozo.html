@@ -23,7 +23,8 @@ $def with(pozos)
       </div>
       <ul class="list-unstyled px-2">
         <li class=""><a href="/operador/lista-pozos" class="text-decoration-none px-3 py-2 d-block">Pozos</a></li>
-        <li class="active"><a href="/operador/control-pozo" class="text-decoration-none px-3 py-2 d-block">Control Remoto</a></li>
+        <li class="active"><a href="/operador/control-pozo" class="text-decoration-none px-3 py-2 d-block">Control
+            Remoto</a></li>
         <li class=""><a href="/operador/lista-usuarios" class="text-decoration-none px-3 py-2 d-block">Usuarios</a></li>
         <li class=""><a href="/operador/generar-reporte" class="text-decoration-none px-3 py-2 d-block">Reportes</a></li>
         <li class="salir"><a href="/logout" class="text-decoration-none px-3 py-2 d-block">Salir</a></li>
@@ -65,7 +66,7 @@ $def with(pozos)
                   <p class="fs-5" id="horario"> hh:mm:ss - hh:mm:ss </p>
                 </div>
                 <div class="d-flex justify-content-center">
-                  <p class="text-body-secondary"><a href="/operador/cambiar-horario" class="text-reset">Cambiar horario</a>
+                  <p class="text-body-secondary"><a href="" class="text-reset" id="link_cambiar">Cambiar horario</a>
                   </p>
                 </div>
               </div>
@@ -77,6 +78,7 @@ $def with(pozos)
                   <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                 </div>
                 <input type="hidden" id="estado" name="estado" value="">
+                <input type="hidden" id="idpozo" name="idpozo" value="">
               </div>
             </div>
           </div>
@@ -89,7 +91,7 @@ $def with(pozos)
     <script src="../../../static/js/scripts.js"></script>
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-      import { getDatabase, ref, update } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+      import { getDatabase, ref, update, child, get, push } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
 
       // Your web app's Firebase configuration
       const firebaseConfig = {
@@ -105,16 +107,91 @@ $def with(pozos)
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
+      let pozo = "";
 
-      function updateData(){
-        const selectElement = document.getElementById('selectPozo');
-        const estadoElement = document.getElementById('estado');
+      const selectElement = document.getElementById('selectPozo');
+      const estadoElement = document.getElementById('estado');
+      const getLocalidCookie = () => document.cookie.split('; ').find(cookie => cookie.startsWith('localid=')).split('=')[1] || null;
+
+
+      function updateData() {
+        if (document.getElementById('flexSwitchCheckDefault').checked) {
+          estadoElement.value = "Encendido";
+        } else {
+          estadoElement.value = "Apagado";
+        }
         update(ref(db, 'data/pozos/' + selectElement.value + '/estado_pozo'), {
-          estado: parseInt(estadoElement.value)
+          estado: estadoElement.value,
         });
       }
+
+      function setLogEncendido() {
+        var localid = toString(getLocalidCookie());
+        const currentDate = new Date();
+        const utcMinus6Date = new Date(currentDate.getTime() - (6 * 60 * 60 * 1000));
+        const formattedDateTime = utcMinus6Date.toISOString().slice(0, 19).replace('T', ' ');
+        console.log(formattedDateTime);
+        push(ref(db, 'data/usuarios/' + getLocalidCookie() + '/logs'), {
+          actividad: "Encendido del pozo: " + pozo,
+          fecha: formattedDateTime,
+        });
+      }
+
+      function setLogApagado() {
+        var localid = toString(getLocalidCookie());
+        const currentDate = new Date();
+        const utcMinus6Date = new Date(currentDate.getTime() - (6 * 60 * 60 * 1000));
+        const formattedDateTime = utcMinus6Date.toISOString().slice(0, 19).replace('T', ' ');
+        console.log(formattedDateTime);
+        push(ref(db, 'data/usuarios/' + getLocalidCookie() + '/logs'), {
+          actividad: "Apagado del pozo: " + pozo,
+          fecha: formattedDateTime,
+        });
+      }
+
+      function setLog() {
+        if (estadoElement.value == "Encendido") {
+          setLogEncendido();
+        } else {
+          setLogApagado();
+        }
+      }
+
+      function readData() {
+        document.getElementById('link_cambiar').href = "/admin/cambiar-horario/" + selectElement.value;
+        const dbref = ref(db)
+        get(child(dbref, 'data/pozos/' + selectElement.value + '/estado_pozo/estado/')).then((snapshot) => {
+          if (snapshot.exists()) {
+            estadoElement.value = snapshot.val();
+            console.log(estadoElement.value);
+            if (estadoElement.value == "Encendido") {
+              document.getElementById('flexSwitchCheckDefault').checked = true;
+            } else {
+              document.getElementById('flexSwitchCheckDefault').checked = false;
+            }
+          } else {
+            console.log("No data available");
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
+        get(child(dbref, 'data/pozos/' + selectElement.value + '/nombre/')).then((snapshot) => {
+          if (snapshot.exists()) {
+            pozo = snapshot.val();
+          } else {
+            console.log("No data available");
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
+      }
+
       document.getElementById('flexSwitchCheckDefault').addEventListener('change', function () {
         updateData();
+        setLog();
+      });
+      document.getElementById('selectPozo').addEventListener('change', function () {
+        readData();
       });
     </script>
 </body>

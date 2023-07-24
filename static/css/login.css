@@ -41,6 +41,13 @@ h1 {
     color: black;
 }
 
+.d-flex {
+    height: 50px;
+    width: 250px;
+    margin-top: 50px;
+    justify-content: center;
+}
+
 @media (max-width: 600px) {
     .custom-grid {
         max-width: 100%;

@@ -127,7 +127,10 @@ $def with(pozos)
 
       function setLogEncendido() {
         var localid = toString(getLocalidCookie());
-        const formattedDateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const currentDate = new Date();
+        const utcMinus6Date = new Date(currentDate.getTime() - (6 * 60 * 60 * 1000));
+        const formattedDateTime = utcMinus6Date.toISOString().slice(0, 19).replace('T', ' ');
+        console.log(formattedDateTime);
         push(ref(db, 'data/usuarios/' + getLocalidCookie() + '/logs'), {
           actividad: "Encendido del pozo: " + pozo,
           fecha: formattedDateTime,
@@ -136,7 +139,10 @@ $def with(pozos)
 
       function setLogApagado() {
         var localid = toString(getLocalidCookie());
-        const formattedDateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const currentDate = new Date();
+        const utcMinus6Date = new Date(currentDate.getTime() - (6 * 60 * 60 * 1000));
+        const formattedDateTime = utcMinus6Date.toISOString().slice(0, 19).replace('T', ' ');
+        console.log(formattedDateTime);
         push(ref(db, 'data/usuarios/' + getLocalidCookie() + '/logs'), {
           actividad: "Apagado del pozo: " + pozo,
           fecha: formattedDateTime,
@@ -163,6 +169,15 @@ $def with(pozos)
             } else {
               document.getElementById('flexSwitchCheckDefault').checked = false;
             }
+          } else {
+            console.log("No data available");
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
+        get(child(dbref, 'data/pozos/' + selectElement.value + '/nombre/')).then((snapshot) => {
+          if (snapshot.exists()) {
+            pozo = snapshot.val();
           } else {
             console.log("No data available");
           }
