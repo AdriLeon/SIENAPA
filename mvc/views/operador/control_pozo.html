@@ -53,7 +53,7 @@ $def with(pozos)
                 <option selected>Selecciona un pozo</option>
                 $for pozo in pozos:
                 <option value="$pozo.key()" id="$pozo.val().get('estado_pozo').get('estado')"
-                  class="$pozo.val().get('horario').get('h_apagado') - $pozo.val().get('horario').get('h_encendido')">
+                  class="$pozo.val().get('horario').get('h_encendido') - $pozo.val().get('horario').get('h_apagado')">
                   $pozo.val().get("nombre")</option>
               </select>
             </div>
