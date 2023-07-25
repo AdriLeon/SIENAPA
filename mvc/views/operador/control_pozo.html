@@ -158,7 +158,7 @@ $def with(pozos)
       }
 
       function readData() {
-        document.getElementById('link_cambiar').href = "/admin/cambiar-horario/" + selectElement.value;
+        document.getElementById('link_cambiar').href = "/operador/cambiar-horario/" + selectElement.value;
         const dbref = ref(db)
         get(child(dbref, 'data/pozos/' + selectElement.value + '/estado_pozo/estado/')).then((snapshot) => {
           if (snapshot.exists()) {
