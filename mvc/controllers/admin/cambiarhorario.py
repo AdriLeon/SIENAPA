@@ -20,8 +20,8 @@ class CambiarHorario:
             time1 = formulario['time1']
             time2 = formulario['time2']
             data = { #crea el diccionario data
-                'h_apagado': str(time1),
-                'h_encendido': str(time2),
+                'h_encendido': str(time1),
+                'h_apagado': str(time2),
             }
             db.child('data').child('pozos').child(id_pozo).child('horario').update(data) #actualiza los datos del horario
             return web.seeother('/admin/control-pozo') #redirecciona a la pagina de pozos
