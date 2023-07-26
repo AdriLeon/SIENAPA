@@ -39,11 +39,7 @@ class GenerarPozo: #clase Index
                 "ubicacion": ubicacion,
                 "estado_pozo": {
                     "electricidad": 0,
-                    "estado": 'Apagado',
-                    "fallas": 0,
-                    "id_falla": 0,
-                    "t_activo": 0,
-                    "tiempo": "2022-07-23 13:10:11"
+                    "estado": 'Apagado'
                 },
                 "horario": {
                     "dia1": 0,
