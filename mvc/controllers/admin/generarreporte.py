@@ -33,7 +33,25 @@ render = web.template.render("mvc/views/admin/") #ruta de las vistas
 
 class GenerarReporte: #clase Index
     def GET(self):
-        return render.generar_reporte()
+        try:
+            cookie = web.cookies().get("localid") # almacena los datos de la cookie
+            users = db.child('data').child('usuarios').get()
+            pozos = db.child('data').child('pozos').get()
+            for user in users.each():
+                if user.key() == cookie and user.val().get('status') == 'activo':
+                    if user.val()['nivel'] == 'administrador':
+                        return render.generar_reporte(total_fallas)
+                    elif user.val()['nivel'] in ['operador', 'informatica']:
+                        web.setcookie('localid', None)
+                        return web.seeother('/logout')
+                    else:
+                        web.setcookie('localid', None)
+                        return web.seeother('/logout')
+            web.setcookie('localid', None)
+            return web.seeother('/logout')
+        except Exception as e:
+            # Manejo de errores en caso de que ocurra una excepción
+            return "Ocurrió un error: " + str(e)
     
     def POST(self):
         try:
@@ -45,10 +63,10 @@ class GenerarReporte: #clase Index
             fechaFin = formulario.fechaFinal
             generarReporte(fechaInicio, fechaFin, pozos, user, cookie)
             print("Total de fallas: {}".format(total_fallas))
-            return render.generar_reporte()
+            return render.generar_reporte(total_fallas)
         except Exception as error:
             print("Error GenerarReporte.POST: {}".format(error))
-            return render.generar_reporte()
+            return render.generar_reporte(total_fallas)
 
     
 def generarReporte(fechaInicio, fechaFin, pozos, user, cookie):
@@ -92,20 +110,22 @@ def generarReporte(fechaInicio, fechaFin, pozos, user, cookie):
             fecha_inicio = fecha_inicio_str.strftime("%Y-%m-%d")
             fecha_fin_str = datetime.strptime(fechaFin, "%Y-%m-%d")
             fecha_fin = fecha_fin_str.strftime("%Y-%m-%d")
-            if fecha_falla >= fecha_inicio and fecha_falla <= fecha_fin:
+            if fecha_falla >= fecha_inicio or fecha_falla <= fecha_fin:
                 if not has_records:
                     # Generate the name of the well and the table headers only once
                     pdf.cell(0, 20, '**Pozo**: ' + pozo.val().get('nombre'), ln=1, align='C', markdown=True)
                     pdf.cell(0, 0, '**Ubicación del pozo**: ' + pozo.val().get('ubicacion'), ln=1, align='C', markdown=True)
                     pdf.cell(0, 15, ln=1,)
                     pdf.set_font('helvetica', 'B', 12)
-                    pdf.cell(0, 16, 'FALLAS', border=True, ln=1, align='C')
+                    pdf.cell(40, 20, 'Numero de falla', border=True, align='C')
+                    pdf.cell(110, 20, 'Descripcion de falla', border=True, align='C')
+                    pdf.cell(50, 20, 'Tiempo de la falla', border=True, ln=True, align='C')
                     pdf.set_font('helvetica', '', 12)
                     has_records = True  # Set the flag to True once the headers are generated
                     count += 1
                     total_fallas += 1
-                    pdf.cell(30, 20, f'Falla: {count}', border=True, align='L')
-                    pdf.cell(116, 20, falla.val().get('falla'), border=True, align='C')
+                    pdf.cell(40, 20, f'Falla: {count}', border=True, align='C')
+                    pdf.cell(110, 20, falla.val().get('falla'), border=True, align='C')
                     pdf.cell(50, 20, falla.val().get('tiempo'), border=True, ln=True, align='C')
                 else:
                     has_records = False
