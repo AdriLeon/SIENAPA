@@ -44,22 +44,20 @@
             <div class="row g-3 justify-content-evenly">
               <div class="col-md-4">
                 <label for="fechaInicio">Del:</label>
-                <input type="date" id="fechaInicio" class="form-control">
+                <input type="date" name="fechaInicio" class="form-control">
               </div>
               <div class="col-md-4">
                 <label for="fechaInicio">Hasta:</label>
-                <input type="date" id="fechaInicio" class="form-control">
+                <input type="date" name="fechaFinal" class="form-control">
               </div>
             </div>
-
           <div>
-          <button class="btn btn-primary btn-generate">Generar reporte</button>
+          <button class="btn btn-primary btn-generate" type="submit">Generar reporte</button>
           </div>
           <div class="form-group">
             <label for="totalIncidentes">Total de incidentes: 0</label>
             <span id="totalIncidentes"></span>
           </div>
-          
           <a href="#" class="download-link"><i class="fas fa-download"></i> Descargar reporte </a>
         </div>
       </div>
