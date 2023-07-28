@@ -19,7 +19,7 @@ class ListaPozos: #clase Index
             for user in users.each():
                     if user.key() == cookie and user.val().get('status') == 'activo':
                         if user.val()['nivel'] == 'administrador':
-                            return render.generar_pozo()
+                            return render.lista_pozos()
                         elif user.val()['nivel'] in ['operador', 'informatica']:
                             web.setcookie('localid', None)
                             return web.seeother('/logout')
