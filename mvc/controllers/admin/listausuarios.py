@@ -5,6 +5,9 @@ import app as app
 import json
 
 render = web.template.render("mvc/views/admin/") #ruta de las vistas
+firebase = pyrebase.initialize_app(token.firebaseConfig)
+auth = firebase.auth() 
+db = firebase.database()
 
 class ListaUsuarios: #clase Index
     def GET(self):

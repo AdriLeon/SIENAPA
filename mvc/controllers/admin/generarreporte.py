@@ -5,6 +5,7 @@ from fpdf import FPDF
 import pyrebase
 from datetime import datetime
 import os
+import string
 
 firebase = pyrebase.initialize_app(token.firebaseConfig)
 auth = firebase.auth() 
@@ -58,21 +59,30 @@ class GenerarReporte: #clase Index
             cookie = web.cookies().get("localid") #almacena los datos de la cookie
             pozos = db.child('data').child('pozos').get()
             user = db.child('data').child('usuarios').child(cookie).get()
+            reportes = db.child('data').child('reportes').get()
             formulario = web.input()
             fechaInicio = formulario.fechaInicio
             fechaFin = formulario.fechaFinal
-            generarReporte(fechaInicio, fechaFin, pozos, user, cookie)
-            print("Total de fallas: {}".format(total_fallas))
+            generarReporte(fechaInicio, fechaFin, pozos, user, reportes, cookie)
+            datos = {
+                'fecha_reporte': datetime.now().strftime("%Y-%m-%d"),
+                'no_control': user.val().get('no_control'),
+                'total_fallas': total_fallas,
+            }
+            db.child('data').child('reportes').push(datos)
             return render.generar_reporte(total_fallas)
         except Exception as error:
             print("Error GenerarReporte.POST: {}".format(error))
             return render.generar_reporte(total_fallas)
-
     
-def generarReporte(fechaInicio, fechaFin, pozos, user, cookie):
+def generarReporte(fechaInicio, fechaFin, pozos, user, reportes, cookie):
     global count
     global total_fallas
     total_fallas = 0
+    cont = 0
+    for i in reportes.each():
+        cont += 1
+        id_reporte = str(cont).zfill(5)
     pdf = FPDF ('P', 'mm', 'Letter')
     pdf.set_auto_page_break(auto=True, margin = 15)
     pdf.add_page()
@@ -88,7 +98,7 @@ def generarReporte(fechaInicio, fechaFin, pozos, user, cookie):
     pdf.set_font('helvetica', '', 12)
     pdf.cell(0, 10, ln=1,)
     pdf.cell(0, 0, '**Persona que solicita**: #' + user.val().get('no_control'), ln=1, align='R', markdown=True)
-    pdf.cell(0, 20, '**N° de Reporte**: 001', border=False, ln=1, align='R', markdown=True)
+    pdf.cell(0, 20, '**N° de Reporte**: '+ id_reporte, border=False, ln=1, align='R', markdown=True)
     pdf.set_font('helvetica', '', 12)
     pdf.cell(0, 10, ln=1,)
     fechaI_d_m_a_str = datetime.strptime(fechaInicio, "%Y-%m-%d")
@@ -106,30 +116,30 @@ def generarReporte(fechaInicio, fechaFin, pozos, user, cookie):
             fecha_hora_str = falla.val().get('tiempo')
             fecha_hora = datetime.strptime(fecha_hora_str, "%Y-%m-%d %H:%M:%S")
             fecha_falla = fecha_hora.strftime("%Y-%m-%d")
+            fecha_doc = fecha_hora.strftime("%d-%m-%Y %H:%M:%S")
             fecha_inicio_str = datetime.strptime(fechaInicio, "%Y-%m-%d")
             fecha_inicio = fecha_inicio_str.strftime("%Y-%m-%d")
             fecha_fin_str = datetime.strptime(fechaFin, "%Y-%m-%d")
             fecha_fin = fecha_fin_str.strftime("%Y-%m-%d")
-            if fecha_falla >= fecha_inicio or fecha_falla <= fecha_fin:
+            if fecha_falla >= fecha_inicio and fecha_falla <= fecha_fin:
                 if not has_records:
+                    pdf.set_font('helvetica', 'B', 12)
                     # Generate the name of the well and the table headers only once
-                    pdf.cell(0, 20, '**Pozo**: ' + pozo.val().get('nombre'), ln=1, align='C', markdown=True)
+                    pdf.cell(0, 20, '**Pozo**: ' + string.capwords(pozo.val().get('nombre')), ln=1, align='C', markdown=True)
                     pdf.cell(0, 0, '**Ubicación del pozo**: ' + pozo.val().get('ubicacion'), ln=1, align='C', markdown=True)
                     pdf.cell(0, 15, ln=1,)
                     pdf.set_font('helvetica', 'B', 12)
-                    pdf.cell(40, 20, 'Numero de falla', border=True, align='C')
-                    pdf.cell(110, 20, 'Descripcion de falla', border=True, align='C')
+                    pdf.cell(45, 20, 'Numero de falla', border=True, align='C')
+                    pdf.cell(105, 20, 'Descripcion de falla', border=True, align='C')
                     pdf.cell(50, 20, 'Tiempo de la falla', border=True, ln=True, align='C')
-                    pdf.set_font('helvetica', '', 12)
                     has_records = True  # Set the flag to True once the headers are generated
-                    count += 1
-                    total_fallas += 1
-                    pdf.cell(40, 20, f'Falla: {count}', border=True, align='C')
-                    pdf.cell(110, 20, falla.val().get('falla'), border=True, align='C')
-                    pdf.cell(50, 20, falla.val().get('tiempo'), border=True, ln=True, align='C')
-                else:
-                    has_records = False
-                    break
-            count = 0  # Reset the count for each pozo
-    pdf.output('static/pdf/reporte.pdf')
+                count += 1
+                total_fallas += 1
+                pdf.set_font('helvetica', '', 12)
+                pdf.cell(45, 20, f'Falla: {count}', border=True, align='C')
+                pdf.cell(105, 20, falla.val().get('falla'), border=True, align='C')
+                pdf.cell(50, 20, fecha_doc, border=True, ln=True, align='C')
+        has_records = False  # Reset the flag for each pozo   
+        count = 0  # Reset the count for each pozo
+    pdf.output('static/pdf/R-{}-{}-{}.pdf'.format(user.val().get('no_control'), cont, datetime.now().strftime("%Y-%m-%d")), 'F')
     return total_fallas
