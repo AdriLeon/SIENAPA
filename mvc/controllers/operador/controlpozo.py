@@ -20,7 +20,7 @@ class ControlPozo: #clase Index
                 if user.key() == cookie and user.val().get('status') == 'activo':
                     if user.val()['nivel'] == 'operador':
                         return render.control_pozo(pozos)
-                    elif user.val()['nivel'] in ['operador', 'informatica']:
+                    elif user.val()['nivel'] in ['administrador', 'informatica']:
                         web.setcookie('localid', None)
                         return web.seeother('/logout')
                     else:

@@ -11,8 +11,25 @@ db = firebase.database()
 
 class CambiarHorario:
     def GET(self, id_pozo):
-        horarios = db.child('data').child('pozos').child(id_pozo).child('horario').get() #obtiene los horarios de la base de datos
-        return render.cambiar_hora(id_pozo, horarios)
+        try:
+            cookie = web.cookies().get("localid") # almacena los datos de la cookie
+            users = db.child('data').child('usuarios').get()
+            horarios = db.child('data').child('pozos').child(id_pozo).child('horario').get() #obtiene los horarios de la base de datos
+            for user in users.each():
+                    if user.key() == cookie and user.val().get('status') == 'activo':
+                        if user.val()['nivel'] == 'administrador':
+                            return render.cambiar_hora(id_pozo, horarios)
+                        elif user.val()['nivel'] in ['operador', 'informatica']:
+                            web.setcookie('localid', None)
+                            return web.seeother('/logout')
+                        else:
+                            web.setcookie('localid', None)
+                            return web.seeother('/logout')
+            web.setcookie('localid', None)
+            return web.seeother('/logout')
+        except Exception as e:
+            # Manejo de errores en caso de que ocurra una excepción
+            return "Ocurrió un error: " + str(e)
 
     def POST(self, id_pozo):
         try:
