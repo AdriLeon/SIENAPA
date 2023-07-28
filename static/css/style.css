@@ -3,7 +3,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    color: #bebebe;
+    color: #fff
 }
   
 
@@ -67,6 +67,12 @@ body {
   }
 
   @media (max-width: 767px) {
+    body {
+      background-image: none;
+      background-color: #bebebe;
+      color: #000;
+    }
+
     .navbar {
       display: block;
     }
