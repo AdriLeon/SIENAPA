@@ -10,6 +10,7 @@ import string
 firebase = pyrebase.initialize_app(token.firebaseConfig)
 auth = firebase.auth() 
 db = firebase.database()
+storage = firebase.storage()
 
 meses_en_espanol = {
     1: "enero",
@@ -70,7 +71,17 @@ class GenerarReporte: #clase Index
                 'total_fallas': total_fallas,
             }
             db.child('data').child('reportes').push(datos)
-            return render.generar_reporte(total_fallas)
+            cont = 0
+            for i in reportes.each():
+                cont += 1
+            id_reporte = str(cont).zfill(5)
+            web.setcookie('documentId', id_reporte)
+            ruta_pdf = "static/pdf/Reporte.pdf"
+            nom_doc = "R-" + id_reporte + "-" + datetime.now().strftime('%d-%m-%Y')
+            storage.child("data/reportes").child(nom_doc).put(ruta_pdf)
+            tokens = web.cookies().get("tokenUser")
+            url = storage.child("data/reportes/"+nom_doc).get_url(tokens)
+            return render.generar_reporte(total_fallas, url)
         except Exception as error:
             print("Error GenerarReporte.POST: {}".format(error))
             return render.generar_reporte(total_fallas)
@@ -82,7 +93,7 @@ def generarReporte(fechaInicio, fechaFin, pozos, user, reportes, cookie):
     cont = 0
     for i in reportes.each():
         cont += 1
-        id_reporte = str(cont).zfill(5)
+    id_reporte = str(cont).zfill(5)
     pdf = FPDF ('P', 'mm', 'Letter')
     pdf.set_auto_page_break(auto=True, margin = 15)
     pdf.add_page()
@@ -141,5 +152,6 @@ def generarReporte(fechaInicio, fechaFin, pozos, user, reportes, cookie):
                 pdf.cell(50, 20, fecha_doc, border=True, ln=True, align='C')
         has_records = False  # Reset the flag for each pozo   
         count = 0  # Reset the count for each pozo
-    pdf.output('static/pdf/R-{}-{}-{}.pdf'.format(user.val().get('no_control'), cont, datetime.now().strftime("%Y-%m-%d")), 'F')
+    #pdf.output('static/pdf/R-{}-{}-{}.pdf'.format(user.val().get('no_control'), cont, datetime.now().strftime("%Y-%m-%d")), 'F')
+    pdf.output('static/pdf/Reporte.pdf', 'F')
     return total_fallas

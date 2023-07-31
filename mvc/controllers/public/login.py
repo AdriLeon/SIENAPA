@@ -27,8 +27,10 @@ class Login: #clase Index
             email = formulario.email 
             password= formulario.password
             user = auth.sign_in_with_email_and_password(email, password) 
+            tokens = user["idToken"]
             local_id =  (user ['localId'])
             web.setcookie('localid', local_id)
+            web.setcookie('tokenUser', tokens)
             busqueda =  db.child("data").child("usuarios").child(user['localId']).get()
             if busqueda.val()['nivel'] == 'administrador' and busqueda.val()['status'] == "activo":
                 actividad = "Ingreso al sistema"

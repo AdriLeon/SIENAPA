@@ -19,5 +19,6 @@ class Logout: #clase Index
             "fecha" : datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
         db.child('data').child('usuarios').child(cookie).child('logs').push(data)
+        web.setcookie('tokenUser', None)
         web.setcookie('localid', None) #establece la cookie en None
         return web.seeother('/')

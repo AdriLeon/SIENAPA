@@ -70,7 +70,17 @@ class GenerarReporte: #clase Index
                 'total_fallas': total_fallas,
             }
             db.child('data').child('reportes').push(datos)
-            return render.generar_reporte(total_fallas)
+            cont = 0
+            for i in reportes.each():
+                cont += 1
+            id_reporte = str(cont).zfill(5)
+            web.setcookie('documentId', id_reporte)
+            ruta_pdf = "static/pdf/Reporte.pdf"
+            nom_doc = "R-" + id_reporte + "-" + datetime.now().strftime('%d-%m-%Y')
+            storage.child("data/reportes").child(nom_doc).put(ruta_pdf)
+            tokens = web.cookies().get("tokenUser")
+            url = storage.child("data/reportes/"+nom_doc).get_url(tokens)
+            return render.generar_reporte(total_fallas, url)
         except Exception as error:
             print("Error GenerarReporte.POST: {}".format(error))
             return render.generar_reporte(total_fallas)
