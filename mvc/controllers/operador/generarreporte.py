@@ -10,6 +10,7 @@ import string
 firebase = pyrebase.initialize_app(token.firebaseConfig)
 auth = firebase.auth() 
 db = firebase.database()
+storage = firebase.storage()
 
 meses_en_espanol = {
     1: "enero",
