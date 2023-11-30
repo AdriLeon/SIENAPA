@@ -76,7 +76,7 @@ class GenerarReporte: #clase Index
                 cont += 1
             id_reporte = str(cont).zfill(5)
             web.setcookie('documentId', id_reporte)
-            ruta_pdf = "static/pdf/Reporte.pdf"
+            ruta_pdf = "/static/pdf/Reporte.pdf"
             nom_doc = "R-" + id_reporte + "-" + datetime.now().strftime('%d-%m-%Y')
             storage.child("data/reportes").child(nom_doc).put(ruta_pdf)
             tokens = web.cookies().get("tokenUser")
